@@ -1,0 +1,23 @@
+\section{Introduction}
+
+Automatic short answer scoring (ASAS) is a critical task in educational assessment, where a model is trained to score student responses to open-ended questions.
+Traditional approaches have largely relied on supervised learning from annotated answers to the same questions encountered at evaluation time, using either engineered features or neural representations \citep{burrowsErasTrendsAutomatic2015,riordanInvestigatingNeuralArchitectures2017}.
+Cross-question generalization, where a scorer must evaluate responses to questions absent from its training data, therefore remains an open challenge.
+New questions introduce new target concepts, reference answers, and scoring criteria, which limit the transfer of patterns learned from seen questions \citep{dzikovskaSemEval2013Task2013,funayamaReducingCostCrossPrompt2023}.
+Reducing this dependence on questions seen during training is critical for the practical deployment of ASAS systems, as it allows for the evaluation of student responses to new questions without requiring additional human annotation.
+
+A large body of previous work tackles this challenge either by prompting large language models (LLMs) to directly score student answers~\citep{changAutomaticShortAnswer2024,chamiehLLMsShortAnswer2024} or by adapting the model architecture to better generalize to unseen questions~\citep{wangInjectRubricsShort2019,liSemanticFeatureWiseTransformation2021,funayamaReducingCostCrossPrompt2023,wuMatchingExemplarNext2023,sun-etal-2026-rubric}. There is also growing interest in using LLMs to synthesize training data for ASAS, with the goal of improving performance on unseen questions or addressing label imbalance \citep{yeZeroGenEfficientZeroshot2022,bexteLunchFreeOvercoming2025}.
+
+Much existing work on data synthesis for natural language understanding (NLU) has focused on tasks such as sentiment analysis, intent detection, natural language inference (NLI), and topic classification \citep{kumarDataAugmentationUsing2020,liSyntheticDataGeneration2023,zouFuseGenPLMFusion2024,ceginRoSERoundrobinSynthetic2025,pecherBetterGeneratorsClassifiers2026}, 
+where labels usually carry a \textbf{fixed}, \textbf{input-independent} meaning that is often signaled by superficial lexical or semantic cues in the input text~\citep{joulinBagTricksEfficient2017,gururanganAnnotationArtifactsNatural2018,kaushikLearningDifferenceThat2020}.
+In ASAS, by contrast, a deeper understanding of the target concepts is required, and the meaning and requirements of each score level are defined relative to each question.
+Useful synthetic answers must therefore simulate \textbf{different} levels of student understanding and be grounded in the \textbf{context information} and \textbf{scoring criteria} of the question. 
+
+The goal of this paper is to address these challenges by comprehensively investigating whether and how LLMs can synthesize realistic student responses to unseen open-ended science questions for ASAS training.
+
+The contributions of this paper are as follows:
+\begin{itemize}
+    \item We investigate various ways of synthesizing realistic student responses to science questions for ASAS training, comparing few-shot prompting with synthesizers trained via supervised fine-tuning (SFT) and direct preference optimization (DPO) on annotated responses to seen questions. We assess both how \textbf{realistic} the synthetic answers are compared to real responses and how \textbf{useful} they are for downstream ASAS model training. It turns out that a synthesizer fine-tuned on annotated responses to seen questions can readily generate realistic and useful synthetic responses to unseen questions.
+    \item To better utilize the theoretically unlimited amount of training data, we investigate synthetic answer selection strategies that rank candidates by the probability a panel of judges assigns to each answer's intended score level. We find that a mixture of answers where judges assign the requested label with confidence and uncertainty is the most useful for ASAS model training.
+    \item Together, we propose a pipeline that uses existing annotated training data to synthesize new training data for out-of-distribution test data, e.g., unseen questions and domains. Since the pipeline requires only labeled examples, it can be readily applied to other NLU classification tasks.
+\end{itemize}

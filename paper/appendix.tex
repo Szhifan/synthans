@@ -1,0 +1,150 @@
+\section{Example Question Metadata}
+\label{app:question-metadata}
+
+The original BEETLE and SciEntsBank datasets provide only a question and a reference answer as scoring context. We therefore augment each question with a more detailed question context and a rubric for each score level. \autoref{tab:question-metadata} presents one complete BEETLE example used to condition answer generation.
+
+\begin{table*}[t]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.15}
+    \resizebox{\linewidth}{!}{%
+    \begin{tabular}{@{}p{0.16\textwidth}p{\dimexpr0.84\textwidth-2\tabcolsep\relax}@{}}
+    \hline
+    \textbf{Component} & \textbf{Content} \\
+    \hline
+    \raggedright\textbf{Question context} &
+    The question asks how to use a multimeter probe placed on a battery terminal and then moved to each bulb terminal to determine which bulb is burned out in a string. Key steps are: measure the voltage between the battery terminal and each bulb terminal (the measurement action), look for a change in voltage when the probe is on the burned out bulb (the indicator), and use that change in voltage to identify the damaged bulb (the identification and location). The reference answer says ``When there is a change in voltage you have found the damaged bulb,'' so correct responses should mention taking voltage readings at each bulb and identifying the burned bulb by a change in those readings. Student samples commonly state simple measurement actions (``measure the voltage,'' ``read the voltage,'' ``0.00 V'') and often mention an outcome like ``voltage changes'' or ``0 volts''; many responses explicitly give the measurement action but omit linking that to observing a change at the burned bulb or fail to state that the observed change is used to locate the damaged bulb. Some short non-attempts just give a single value, such as ``0.00 V,'' or one-word answers that do not include the measurement step plus the indicator-based identification. \\
+    \hline
+    \raggedright\textbf{Incorrect rubric} &
+    Incorrect: The response contradicts one or more required components, gives no measurement action, or is off-topic or a non-attempt. Examples include stating an absolute value as a rule without describing measurement (``there would be 0.00 V''), restating the question, or answering unrelated material. Any explicit contradiction of the indicator places the response here. \\
+    \hline
+    \raggedright\textbf{Partially correct rubric} &
+    Partially Correct: The response correctly states the measurement action or that a voltage reading will be present, but typically omits that a change in voltage is the diagnostic indicator. What is stated must agree with the reference answer. An example: ``You would measure the voltage'' or ``there would be a voltage reading'' without mentioning that a change in voltage marks the burned out bulb. \\
+    \hline
+    \raggedright\textbf{Correct rubric} &
+    Correct: The response includes all components: it says to measure voltage between the battery terminal and each bulb terminal, it specifies that a change in the measured voltage indicates the burned out bulb, and it states that this change identifies the location of the damaged bulb. Equivalent wording counts, for example: ``When the voltage reading changes while probing along the string, that change shows which bulb is burned out.'' \\
+    \hline
+    \end{tabular}%
+    }
+    \caption{Question, reference answer, question context, and three-level rubric for a BEETLE example.}
+    \label{tab:question-metadata}
+\end{table*}
+
+\section{Example Synthesis Prompt}
+\label{app:synthesis-prompt}
+
+\autoref{tab:synthesis-prompt} presents a first-round synthesis prompt for the BEETLE question in \autoref{tab:question-metadata} at the partially correct level. The answers it lists are the generated seed examples for this question and level.
+
+% TODO: check against the server code, since the local template says 5 answers and has no reference-answer field; confirm the "Real student answers" heading is also used with generated seed examples.
+\begin{table*}[t]
+    \centering
+    \footnotesize
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{@{}p{0.09\textwidth}p{\dimexpr0.91\textwidth-2\tabcolsep\relax}@{}}
+    \hline
+    \textbf{Role} & \textbf{Content} \\
+    \hline
+    \raggedright\textbf{System} &
+    \raggedright\ttfamily You are an expert in educational assessment and student short-answer response writing.\newline\newline Generate realistic student answers for the requested score level. Match the language, style, brevity, imperfections, and conceptual quality of the provided examples. Return only the requested answers, one per line. \tabularnewline
+    \hline
+    \raggedright\textbf{User} &
+    \raggedright\ttfamily Question:\newline
+    Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?\newline\newline
+    Scoring context:\newline
+    The question asks how to use a multimeter probe placed on a battery terminal and then moved to each bulb terminal to determine which bulb is burned out in a string. Key steps are: measure the voltage between the battery terminal and each bulb terminal (the measurement action), look for a change in voltage when the probe is on the burned out bulb (the indicator), and use that change in voltage to identify the damaged bulb (the identification/location). The reference answer says “When there is a change in voltage you have found the damaged bulb,” so correct responses should mention taking voltage readings at each bulb and identifying the burned bulb by a change in those readings. Student samples commonly state simple measurement actions (“measure the voltage,” “read the voltage,” “0.00 V”) and often mention an outcome like “voltage changes” or “0 volts”; many responses explicitly give the measurement action but omit linking that to observing a change at the burned bulb or fail to state that the observed change is used to locate the damaged bulb. Some short non-attempts just give a single value (e.g., “0.00 V”) or one-word answers that do not include the measurement step plus the indicator-based identification.\newline\newline
+    Target score label:\newline
+    Partially Correct\newline\newline
+    Rubric for this question and target score label:\newline
+    Partially Correct: The response correctly states the measurement action or that a voltage reading will be present, but typically omits that a change in voltage is the diagnostic indicator. What is stated must agree with the reference answer. An example: "You would measure the voltage" or "there would be a voltage reading" without mentioning that a change in voltage marks the burned out bulb.\newline\newline
+    Real student answers for this same question and score label:\newline
+    Put one meter lead on the battery and measure each bulb terminal\newline
+    Touch each bulb terminal with probe and note voltage readings\newline
+    Measure voltage at each bulb terminal relative to battery terminal\newline
+    Keep one probe on battery, probe bulbs until you see a different reading\newline
+    Probe each bulb terminal from the battery terminal, looking for different voltages\newline
+    Attach one lead to battery, test bulb terminals for voltage\newline
+    Measure between the battery and bulbs one terminal at a time\newline
+    Use a multimeter from battery to each bulb terminal to find differences\newline
+    Place one lead on the battery and check bulb terminals sequentially\newline
+    Put one lead on battery and probe terminals to see voltage readings\newline\newline
+    Task:\newline
+    Write exactly 10 new synthesized student answers for the same question and target score label.
+    \end{tabular}
+    \caption{Synthesis prompt for a BEETLE question at the partially correct level.}
+    \label{tab:synthesis-prompt}
+\end{table*}
+
+\section{Datasets and Evaluation Setup}
+\label{app:datasets}
+
+We use BEETLE and SciEntsBank~\citep{dzikovskaSemEval2013Task2013}. Each example consists of a question $q$, a reference answer $r$, a student answer $a$, and a human-assigned score level $\ell \in \{0, 1, 2\}$. The scorer predicts $\ell$ from $(q, r, a)$. Both benchmarks provide unseen questions (UQ) from the training domains, and SciEntsBank also provides questions from unseen domains (UD). These target questions are disjoint from the seen training questions, and their real student answers are reserved for evaluation.
+
+\section{Synthesizer Training Details}
+\label{app:synthesizer-training}
+
+\autoref{tab:synthesizer-hyperparameters} lists the hyperparameters of the three fine-tuned synthesizer variants. All variants are trained as LoRA adapters on Qwen2.5-7B-Instruct, Llama-3.1-8B-Instruct, and Mistral-7B-Instruct-v0.3, with identical settings for the three models and for BEETLE and SciEntsBank. We use the sigmoid preference loss and an NLL term on the chosen completion for DPO. The length tolerance is not part of the loss: rejected answers are matched to chosen answers one by one, and a pair is kept only if the token lengths of the two differ by at most 10\% of their mean.
+
+\begin{table}[t]
+    \centering
+    \small
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{@{}lccc@{}}
+    \hline
+    & \textbf{SFT} & \textbf{SFT+DPO} & \textbf{DPO} \\
+    \hline
+    Starts from & base & SFT adapter & base \\
+    $\pi_{\mathrm{ref}}$ & -- & SFT adapter & base \\
+    LoRA rank / $\alpha_{\mathrm{LoRA}}$ & 32 / 64 & 32 / 64 & 64 / 64 \\
+    LoRA dropout & 0.05 & 0.05 & 0.05 \\
+    Learning rate & $1.5\times10^{-4}$ & $5\times10^{-6}$ & $1.5\times10^{-4}$ \\
+    Steps & 800 & 400 & 1,200 \\
+    Batch size & 32 & 16 & 16 \\
+    Max length & 4,096 & 4,096 & 4,096 \\
+    $\beta$ & -- & 0.1 & 0.1 \\
+    $\alpha$ & -- & 1.0 & 1.0 \\
+    Length tolerance & -- & 0.1 & 0.1 \\
+    Checkpoint & last & best eval & best eval \\
+    \hline
+    \end{tabular}
+    \caption{Hyperparameters of the fine-tuned synthesizers.}
+    \label{tab:synthesizer-hyperparameters}
+\end{table}
+
+All runs apply LoRA to the query, key, value, and output projections and share the following settings: a cosine learning-rate schedule with 5\% warmup, the fused AdamW optimizer without weight decay, bf16 precision, gradient checkpointing, and random seed 13. Each training prompt shows no examples with probability 0.05 and 10 examples with probability 0.95, and each completion contains 10 answers.
+
+\section{Judge and Scorer Models}
+\label{app:judge-scorer}
+
+The judge panel consists of six sequence classifiers: BERT~\citep{devlinBERTPretrainingDeep2019}, RoBERTa~\citep{liuRoBERTaRobustlyOptimized2019}, ModernBERT~\citep{warnerSmarterBetterFaster2025}, DeBERTa~\citep{heDeBERTaV3ImprovingDeBERTa2023}, Llama-3.2-1B, and Llama-3.2-3B~\citep{grattafioriLlama3Herd2024}, with the Llama models used as encoders. Each judge reads the question, reference answer, and student answer and predicts the score level. The judges are trained only on the original training set, so they see neither synthetic answers nor answers to unseen questions. The scorer takes the same input and uses BERT, RoBERTa, ModernBERT, or DeBERTa as the encoder.
+
+\autoref{tab:judge-f1-by-arm} reports how often the judges assign the synthetic answers of each synthesizer to the level they were generated for.
+
+% Generated by analysis_outputs/judge_by_arm/plot_judge_by_arm.py.
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{lcccccccc}
+\toprule
+ & \multicolumn{4}{c}{BEETLE} & \multicolumn{4}{c}{SciEntsBank} \\
+\cmidrule(lr){2-5} \cmidrule(lr){6-9}
+Synthesizer & Inc. & Part. & Corr. & Macro & Inc. & Part. & Corr. & Macro \\
+\midrule
+Prompting & 59.8 & 20.4 & 55.5 & 45.3 & 60.7 & 25.4 & 64.2 & 50.1 \\
+SFT & 57.7 & 44.2 & 61.0 & 54.3 & 59.0 & 32.8 & 58.8 & 50.2 \\
+SFT+DPO & 62.3 & 45.4 & 64.5 & 57.4 & 65.5 & 35.5 & 63.0 & 54.6 \\
+DPO & \textbf{67.0} & \textbf{49.0} & \textbf{67.6} & \textbf{61.2} & \textbf{68.3} & \textbf{41.0} & \textbf{69.3} & \textbf{59.5} \\
+\bottomrule
+\end{tabular}
+}%
+\caption{F1 (\%) of the six judges on synthetic answers, against the level each was generated for. \textbf{Bold} marks the best per column.}
+\label{tab:judge-f1-by-arm}
+\end{table}
+
+\section{Per-Model Scoring Results}
+\label{app:per-model-results}
+
+\autoref{tab:appendix-random-amount} reports the results for each scorer and synthesis method at every amount of synthetic data, and \autoref{tab:appendix-selection-amount} reports the same for each selection policy.
+
+\input{appendix_tables.tex}
