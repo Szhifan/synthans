@@ -12,17 +12,23 @@ The original BEETLE and SciEntsBank datasets provide only a question and a refer
     \hline
     \textbf{Component} & \textbf{Content} \\
     \hline
+    \raggedright\textbf{Question} &
+    Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb? \\
+    \hline
+    \raggedright\textbf{Reference answer} &
+    When there is a change in voltage you have found the damaged bulb \\
+    \hline
     \raggedright\textbf{Question context} &
-    The question asks how to use a multimeter probe placed on a battery terminal and then moved to each bulb terminal to determine which bulb is burned out in a string. Key steps are: measure the voltage between the battery terminal and each bulb terminal (the measurement action), look for a change in voltage when the probe is on the burned out bulb (the indicator), and use that change in voltage to identify the damaged bulb (the identification and location). The reference answer says ``When there is a change in voltage you have found the damaged bulb,'' so correct responses should mention taking voltage readings at each bulb and identifying the burned bulb by a change in those readings. Student samples commonly state simple measurement actions (``measure the voltage,'' ``read the voltage,'' ``0.00 V'') and often mention an outcome like ``voltage changes'' or ``0 volts''; many responses explicitly give the measurement action but omit linking that to observing a change at the burned bulb or fail to state that the observed change is used to locate the damaged bulb. Some short non-attempts just give a single value, such as ``0.00 V,'' or one-word answers that do not include the measurement step plus the indicator-based identification. \\
+    Task: test a series circuit of light bulbs by holding one multimeter lead on a battery terminal and touching the other lead to each bulb terminal in turn. Relevant entities: battery, bulb terminals, multimeter voltage reading. Reasoning: a burned (open) bulb alters the circuit so the measured voltage suddenly changes at that bulb; that change identifies the fault. \\
     \hline
     \raggedright\textbf{Incorrect rubric} &
-    Incorrect: The response contradicts one or more required components, gives no measurement action, or is off-topic or a non-attempt. Examples include stating an absolute value as a rule without describing measurement (``there would be 0.00 V''), restating the question, or answering unrelated material. Any explicit contradiction of the indicator places the response here. \\
+    Incorrect: Responses that state an absolute number or present no diagnostic criterion, report unrelated measurements, or give no indication of using a voltage change to locate the fault. Answers that assert a single fixed reading without connecting it to a change at a particular bulb, or that are irrelevant, earn zero. \\
     \hline
     \raggedright\textbf{Partially correct rubric} &
-    Partially Correct: The response correctly states the measurement action or that a voltage reading will be present, but typically omits that a change in voltage is the diagnostic indicator. What is stated must agree with the reference answer. An example: ``You would measure the voltage'' or ``there would be a voltage reading'' without mentioning that a change in voltage marks the burned out bulb. \\
+    Partially Correct: Answers that mention a voltage change but fail to explain how that change identifies the burned bulb earn partial credit. Credit for noting that the multimeter reading will differ at the faulty location, but missing clarification that the change occurs when moving from a working bulb terminal to the burned bulb terminal is partial. \\
     \hline
     \raggedright\textbf{Correct rubric} &
-    Correct: The response includes all components: it says to measure voltage between the battery terminal and each bulb terminal, it specifies that a change in the measured voltage indicates the burned out bulb, and it states that this change identifies the location of the damaged bulb. Equivalent wording counts, for example: ``When the voltage reading changes while probing along the string, that change shows which bulb is burned out.'' \\
+    Correct: Complete answers state that you detect the burned bulb by observing a change in the multimeter voltage as you move the probe along the string; the damaged bulb is located where the reading shifts, indicating a discontinuity or altered potential across that socket. Equivalent clear descriptions of finding the bulb by this voltage change earn full credit. \\
     \hline
     \end{tabular}%
     }
@@ -51,22 +57,22 @@ The original BEETLE and SciEntsBank datasets provide only a question and a refer
     \raggedright\ttfamily Question:\newline
     Finally, consider finding a burned out light bulb in a long string of lights. One approach would be to place one lead of the multimeter on a battery terminal and then move the other lead systematically, one light bulb terminal at a time. How would you know when you have found the burned out bulb?\newline\newline
     Scoring context:\newline
-    The question asks how to use a multimeter probe placed on a battery terminal and then moved to each bulb terminal to determine which bulb is burned out in a string. Key steps are: measure the voltage between the battery terminal and each bulb terminal (the measurement action), look for a change in voltage when the probe is on the burned out bulb (the indicator), and use that change in voltage to identify the damaged bulb (the identification/location). The reference answer says “When there is a change in voltage you have found the damaged bulb,” so correct responses should mention taking voltage readings at each bulb and identifying the burned bulb by a change in those readings. Student samples commonly state simple measurement actions (“measure the voltage,” “read the voltage,” “0.00 V”) and often mention an outcome like “voltage changes” or “0 volts”; many responses explicitly give the measurement action but omit linking that to observing a change at the burned bulb or fail to state that the observed change is used to locate the damaged bulb. Some short non-attempts just give a single value (e.g., “0.00 V”) or one-word answers that do not include the measurement step plus the indicator-based identification.\newline\newline
+    Task: test a series circuit of light bulbs by holding one multimeter lead on a battery terminal and touching the other lead to each bulb terminal in turn. Relevant entities: battery, bulb terminals, multimeter voltage reading. Reasoning: a burned (open) bulb alters the circuit so the measured voltage suddenly changes at that bulb; that change identifies the fault.\newline\newline
     Target score label:\newline
     Partially Correct\newline\newline
     Rubric for this question and target score label:\newline
-    Partially Correct: The response correctly states the measurement action or that a voltage reading will be present, but typically omits that a change in voltage is the diagnostic indicator. What is stated must agree with the reference answer. An example: "You would measure the voltage" or "there would be a voltage reading" without mentioning that a change in voltage marks the burned out bulb.\newline\newline
-    Real student answers for this same question and score label:\newline
-    Put one meter lead on the battery and measure each bulb terminal\newline
-    Touch each bulb terminal with probe and note voltage readings\newline
-    Measure voltage at each bulb terminal relative to battery terminal\newline
-    Keep one probe on battery, probe bulbs until you see a different reading\newline
-    Probe each bulb terminal from the battery terminal, looking for different voltages\newline
-    Attach one lead to battery, test bulb terminals for voltage\newline
-    Measure between the battery and bulbs one terminal at a time\newline
-    Use a multimeter from battery to each bulb terminal to find differences\newline
-    Place one lead on the battery and check bulb terminals sequentially\newline
-    Put one lead on battery and probe terminals to see voltage readings\newline\newline
+    Partially Correct: Answers that mention a voltage change but fail to explain how that change identifies the burned bulb earn partial credit. Credit for noting that the multimeter reading will differ at the faulty location, but missing clarification that the change occurs when moving from a working bulb terminal to the burned bulb terminal is partial.\newline\newline
+    Generated seed answers for this question and score label:\newline
+    There is a change in voltage.\newline
+    When the voltage reading changes.\newline
+    The voltage will change.\newline
+    A difference appears in voltage.\newline
+    Where the voltage changes.\newline
+    The meter shows changing voltage.\newline
+    There is a voltage difference.\newline
+    When the electrical state changes.\newline
+    Voltage changes between the terminals.\newline
+    The reading shows a voltage change.\newline\newline
     Task:\newline
     Write exactly 10 new synthesized student answers for the same question and target score label.
     \end{tabular}
@@ -74,10 +80,59 @@ The original BEETLE and SciEntsBank datasets provide only a question and a refer
     \label{tab:synthesis-prompt}
 \end{table*}
 
+\section{Seed Examples for Unseen Questions}
+\label{app:seed-examples}
+
+\paragraph{Why seed examples are hard to obtain.}
+The synthesis prompt asks for new answers that match the seed examples in style and level while differing from them, so the seeds largely determine what the synthesizer produces. For seen questions, the seeds are real labeled training answers. For an unseen question, no labeled answers are available for this purpose, and each obvious substitute has a flaw:
+\begin{itemize}
+    \item \textbf{Labeled test answers.} The real answers to unseen questions, together with their gold labels, are the evaluation data. Using them as seeds leaks test labels into generation.
+    \item \textbf{LLM-written seeds.} Seeds written from the question and reference answer alone avoid leakage, but they contain no information about how students actually answer the question, including their typical phrasings, omissions, and misconceptions. Their level is only the level the LLM intended, which is unreliable at the partially correct level: few-shot prompting reaches only 20.4 and 25.4 F1 on partially correct answers in \autoref{tab:judge-f1-by-arm}.
+    \item \textbf{Unlabeled test answers.} In practice, a teacher who poses a new question collects the responses before grading them, so the answers themselves can be used. Without labels, however, it is unknown which level each answer belongs to, and the level distribution differs across questions, so some question--level cells contain few answers.
+\end{itemize}
+
+\paragraph{Transductive setting.}
+We use the unlabeled answers and take level information only from the judge panel (\autoref{app:judge-scorer}), which is trained on the original training set and is not retrained or fine-tuned on any test data. We build label-stripped copies of BEETLE UQ, SciEntsBank UQ, and SciEntsBank UD that contain only the answer ID, question ID, question, reference answer, and student answer. Judge inference and generation read only these copies. The labeled test files are kept in a separate directory, and the judge and generation scripts fail if any file in it is opened. Every LLM call comes from a fixed script with a fixed prompt template and is logged with the model, the full prompt, the hash of the input file, the output, and a timestamp.
+
+\paragraph{Pseudo-labeling and selection.}
+Every unlabeled answer $a$ is scored by all $J = 6$ judges. For each level $\ell$, the panel score is the mean probability over the judges, $s(a, \ell) = \frac{1}{J} \sum_{j=1}^{J} p_j(\ell \mid a)$, as in \autoref{eq:panel-score}. For each question $q$ and level $\ell$, the answers to $q$ are ranked by $s(a, \ell)$, and the top $k = 10$ are selected. Each answer is selected for at most one level, namely its argmax level: if it ranks among the top $k$ for another level, it is skipped there and the next candidate is taken. If fewer than $k$ answers to $q$ have $\ell$ as their argmax level, only these are selected; the cell is never filled with answers predicted at a different level.
+
+\paragraph{Rewriting and completion.}
+The pseudo-labels are noisy, particularly at the partially correct level, so the selected answers are not used as seeds directly. For each question and target level, an LLM (GPT-5.6-Luna) receives the question, the reference answer, and the selected answers of all three levels, grouped by predicted level. The prompt states that the grouping comes from a fallible automatic classifier and is evidence about likely wording and misconceptions, not gold truth. The LLM checks each selected answer against the question and reference answer itself, keeps it unchanged only if it clearly satisfies the target level, and otherwise rewrites it. If the target group has fewer than 10 usable answers, the LLM infers the missing ones from the question and reference answer and uses the other groups only as cues for style and plausible errors. It may combine or generalize ideas from the groups but may not add facts that the question or reference answer does not support. Each call returns exactly 10 distinct answers, which become the seed examples for that question and level. The level definitions follow the reference answer: a correct answer states all required content, a partially correct answer states some of it correctly and omits the rest, and an incorrect answer contradicts it with a plausible misconception. To match real student answers, the prompt asks for short, informal fragments of roughly 3--10 words without hedges or added explanation.
+
+\paragraph{Question contexts and rubrics.}
+The question contexts and rubrics for unseen questions (\autoref{app:question-metadata}) are generated by \textit{gpt-5-mini} from the question, the reference answer, and the selected answers grouped by pseudo-label. The prompt template and output schema are the same as for the original contexts and rubrics, except that the example answers are described as grouped by the level an automatic classifier predicted, and the rubric is required to remain consistent with the reference answer.
+
+\paragraph{Gold labels.}
+Gold labels are read only by a separate diagnostic script, run after selection and generation are frozen, which computes the precision of the selected pseudo-labels per split and level. Its results do not feed back into generation.
+
 \section{Datasets and Evaluation Setup}
 \label{app:datasets}
 
-We use BEETLE and SciEntsBank~\citep{dzikovskaSemEval2013Task2013}. Each example consists of a question $q$, a reference answer $r$, a student answer $a$, and a human-assigned score level $\ell \in \{0, 1, 2\}$. The scorer predicts $\ell$ from $(q, r, a)$. Both benchmarks provide unseen questions (UQ) from the training domains, and SciEntsBank also provides questions from unseen domains (UD). These target questions are disjoint from the seen training questions, and their real student answers are reserved for evaluation.
+We use BEETLE and SciEntsBank~\citep{dzikovskaSemEval2013Task2013}. Each example consists of a question $q$, a reference answer $r$, a student answer $a$, and a human-assigned score level $\ell \in \{0, 1, 2\}$. The scorer predicts $\ell$ from $(q, r, a)$. Both benchmarks provide unseen questions (UQ) from the training domains, and SciEntsBank also provides questions from unseen domains (UD). These target questions are disjoint from the seen training questions. Their gold labels are reserved for evaluation, and their student answers are used for synthesis only without labels (\autoref{app:seed-examples}).
+
+\begin{table}[t]
+    \centering
+    \small
+    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrr@{}}
+    \hline
+    \textbf{Split} & \textbf{Questions} & \textbf{Answers} \\
+    \hline
+    \multicolumn{3}{@{}l}{\textbf{BEETLE}} \\
+    Train & 47 & 3,941 \\
+    \sout{Test UA} & \sout{47} & \sout{439} \\
+    Test UQ & 9 & 819 \\
+    \hline
+    \multicolumn{3}{@{}l}{\textbf{SciEntsBank}} \\
+    Train & 135 & 4,969 \\
+    \sout{Test UA} & \sout{135} & \sout{540} \\
+    Test UQ & 15 & 733 \\
+    Test UD & 46 & 4,562 \\
+    \hline
+    \end{tabular*}
+    \caption{Number of questions and student answers in the original training and test splits. \sout{Test UA} is not used in the experiments.}
+    \label{tab:dataset-statistics}
+\end{table}
 
 \section{Synthesizer Training Details}
 \label{app:synthesizer-training}
@@ -112,10 +167,32 @@ We use BEETLE and SciEntsBank~\citep{dzikovskaSemEval2013Task2013}. Each example
 
 All runs apply LoRA to the query, key, value, and output projections and share the following settings: a cosine learning-rate schedule with 5\% warmup, the fused AdamW optimizer without weight decay, bf16 precision, gradient checkpointing, and random seed 13. Each training prompt shows no examples with probability 0.05 and 10 examples with probability 0.95, and each completion contains 10 answers.
 
+\autoref{tab:generation-settings} lists the number of generation rounds and the sampling temperature of each synthesizer.
+
+\begin{table}[t]
+    \centering
+    \small
+    \begin{tabular}{@{}lccc@{}}
+    \hline
+    & \multicolumn{2}{c}{\textbf{Rounds}} & \\
+    \cline{2-3}
+    & \textbf{BEETLE} & \textbf{SciEntsBank} & \textbf{Temperature} \\
+    \hline
+    Prompting & 5 & 5 & 0.8 \\
+    SFT & 19 & 10 & 1.0 \\
+    SFT+DPO & 19 & 10 & 1.0 \\
+    DPO & 19 & 10 & 1.0 \\
+    \hline
+    \end{tabular}
+    \caption{Generation rounds and sampling temperature of each synthesizer. SciEntsBank UQ and UD use the same number of rounds.}
+    \label{tab:generation-settings}
+\end{table}
+
 \section{Judge and Scorer Models}
 \label{app:judge-scorer}
 
-The judge panel consists of six sequence classifiers: BERT~\citep{devlinBERTPretrainingDeep2019}, RoBERTa~\citep{liuRoBERTaRobustlyOptimized2019}, ModernBERT~\citep{warnerSmarterBetterFaster2025}, DeBERTa~\citep{heDeBERTaV3ImprovingDeBERTa2023}, Llama-3.2-1B, and Llama-3.2-3B~\citep{grattafioriLlama3Herd2024}, with the Llama models used as encoders. Each judge reads the question, reference answer, and student answer and predicts the score level. The judges are trained only on the original training set, so they see neither synthetic answers nor answers to unseen questions. The scorer takes the same input and uses BERT, RoBERTa, ModernBERT, or DeBERTa as the encoder.
+The judge panel consists of six sequence classifiers: BERT~\citep{devlinBERTPretrainingDeep2019}, RoBERTa~\citep{liuRoBERTaRobustlyOptimized2019}, ModernBERT~\citep{warnerSmarterBetterFaster2025}, DeBERTa~\citep{heDeBERTaV3ImprovingDeBERTa2023}, Llama-3.2-1B, and Llama-3.2-3B~\citep{grattafioriLlama3Herd2024}, with the Llama models used as encoders. Each judge reads the question, reference answer, and student answer and predicts the score level. The Llama judges are loaded with a sequence-classification head, which predicts the level from the hidden state of the last token, and are trained as LoRA adapters of rank 64 for 4 epochs with a learning rate of $10^{-4}$. The judges are trained only on the original training set, so they see neither synthetic answers nor answers to unseen questions. The scorer takes the same input, uses BERT, RoBERTa, ModernBERT, or DeBERTa as the encoder, and is trained with the same settings as the judge with the same encoder.
+% TODO: add for BERT/RoBERTa/ModernBERT/DeBERTa: base or large, epochs, learning rate, seeds, checkpoint selection.
 
 \autoref{tab:judge-f1-by-arm} reports how often the judges assign the synthetic answers of each synthesizer to the level they were generated for.
 
@@ -148,3 +225,7 @@ DPO & \textbf{67.0} & \textbf{49.0} & \textbf{67.6} & \textbf{61.2} & \textbf{68
 \autoref{tab:appendix-random-amount} reports the results for each scorer and synthesis method at every amount of synthetic data, and \autoref{tab:appendix-selection-amount} reports the same for each selection policy.
 
 \input{appendix_tables.tex}
+
+\autoref{tab:appendix-random-amount-level-0}, \autoref{tab:appendix-random-amount-level-1}, and \autoref{tab:appendix-random-amount-level-2} report the corresponding per-level F1 scores for incorrect, partially correct, and correct answers, respectively. \autoref{tab:appendix-selection-amount-level-0}, \autoref{tab:appendix-selection-amount-level-1}, and \autoref{tab:appendix-selection-amount-level-2} give the same breakdown for each selection policy.
+
+\input{appendix_per_level_tables.tex}

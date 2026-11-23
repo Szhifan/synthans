@@ -5,7 +5,7 @@
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=\textwidth]{fig1_pipeline.pdf}
+    \includegraphics[width=\textwidth]{figure/fig1_pipeline.pdf}
     \caption{Overview of the training and evaluation pipeline.}
     \label{fig:pipeline}
 \end{figure*}
@@ -16,29 +16,7 @@
 % We use the three-way versions of BEETLE and SciEntsBank~\citep{dzikovskaSemEval2013Task2013}, with answers labeled incorrect, partially correct, or correct. Each example contains a question, a reference answer, a student answer, and its score level. \autoref{tab:dataset-statistics} summarizes the original training and test splits. UA denotes unseen answers, UQ denotes unseen questions, and UD denotes unseen domains. Our cross-question evaluation focuses on BEETLE UQ and SciEntsBank UQ and UD, whose questions are disjoint from the training questions; their real student answers are reserved for evaluation.
 
 % For each split, we report the number of questions $Q$, the number of student answers $N$, and the mean number of answers per (question, score level) pair, $N/(3Q)$. This mean includes all three score levels for every question, including pairs with no observed answers. Training counts are reported before holding out 10\% of the original training set for validation.
-We use the BEETLE and SciEntsBank datasets~\citep{dzikovskaSemEval2013Task2013}, reformulating the original five-way labeling scheme as a three-level scheme (incorrect, partially correct, correct), as in prior work~\citep{sun-etal-2026-rubric}. The unseen-question (UQ) and unseen-domain (UD) splits of SciEntsBank are used for cross-question evaluation. \autoref{tab:dataset-statistics} summarizes the original training and test splits.
-\begin{table}[t]
-    \centering
-    \small
-    \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lrr@{}}
-    \hline
-    \textbf{Split} & \textbf{Questions} & \textbf{Answers} \\
-    \hline
-    \multicolumn{3}{@{}l}{\textbf{BEETLE}} \\
-    Train & 47 & 3,941 \\
-    \sout{Test UA} & \sout{47} & \sout{439} \\
-    Test UQ & 9 & 819 \\
-    \hline
-    \multicolumn{3}{@{}l}{\textbf{SciEntsBank}} \\
-    Train & 135 & 4,969 \\
-    \sout{Test UA} & \sout{135} & \sout{540} \\
-    Test UQ & 15 & 733 \\
-    Test UD & 46 & 4,562 \\
-    \hline
-    \end{tabular*}
-    \caption{Number of questions and student answers in the original training and test splits. \sout{Test UA} is not used in the experiments.}
-    \label{tab:dataset-statistics}
-\end{table}
+We use the BEETLE and SciEntsBank datasets~\citep{dzikovskaSemEval2013Task2013}, reformulating the original five-way label scheme as a three-level scheme (incorrect, partially correct, correct), as in prior work~\citep{sun-etal-2026-rubric}. The unseen-question (UQ) and unseen-domain (UD) splits of SciEntsBank are used for cross-question evaluation. The latter one is a harder transfer task as it test the model on completely unseen subjects. \autoref{tab:dataset-statistics} in \autoref{app:datasets} summarizes the original training and test splits.
 
 % \paragraph{Training Protocol}
 % For the SFT synthesizers, we train for 800 steps. For the DPO synthesizers without SFT, we train for 1200 steps. For the DPO synthesizers with SFT, we train for 800 steps.
@@ -49,10 +27,10 @@ We use the BEETLE and SciEntsBank datasets~\citep{dzikovskaSemEval2013Task2013},
 Each prompt is built for a question $q$ and a requested level $\ell$ and asks the model to generate new answers that differ from the seed examples. \autoref{tab:synthesis-prompt} in \autoref{app:synthesis-prompt} shows an example.
 
 \paragraph{Question Context Augmentation.}
-To better capture the requirements of each question and the scoring criteria for each level, \textit{gpt-5-mini} augments the question with a context description and a set of rubrics for each level. A detailed example of the question context and rubrics is shown in \autoref{tab:question-metadata} in \autoref{app:question-metadata}.
+To better capture the requirements of each question and the scoring criteria for each level, \textit{gpt-5-mini} augments the question with a context description and a set of rubrics for each level. A detailed example of the question context and rubrics is shown in \autoref{tab:question-metadata} in \autoref{app:question-metadata}. For unseen questions, the context and rubrics are generated from pseudo-labeled answers (\autoref{app:seed-examples}).
 
 \paragraph{Seed Examples.}
-Since answers to unseen questions are assumed to be unavailable at test time, we generate 10 seed examples per question and level using a powerful LLM\footnote{GPT-5.6-Luna.}. During training, the seed examples are instead 10 real student answers from the training set.
+During training, the seed examples are 10 real student answers from the training set for each question and level. Obtaining seed examples for unseen questions is non-trivial: their labeled answers are test data, and seeds written by an LLM from the question alone are not grounded in how students actually answer. We therefore adopt a transductive setting in which the answers to unseen questions are available without their labels. The judge panel (\autoref{sec:selection-training}) assigns each answer a pseudo-label, the 10 answers per question and level that the panel is most confident about are selected, and an LLM\footnote{GPT-5.6-Luna.} checks them against the reference answer, keeping or rewriting each one and writing new answers when fewer than 10 usable ones remain. \autoref{app:seed-examples} discusses the problem and gives the full procedure.
 
 \paragraph{Target Examples.}
 To train the synthesizers via SFT or DPO, we randomly sample 10 real student answers from the training set for each question and level as the target examples.
@@ -68,7 +46,7 @@ To encourage diversity in the generated answers, we apply a diversity filter dur
 We compare four synthesis approaches. Few-shot prompting uses off-the-shelf models, while the other three use models fine-tuned only on real answers to seen questions.
 
 \paragraph{Few-shot prompting.}
-As a baseline, synthesis prompts are sent directly to four instruction-tuned LLMs.\footnote{\texttt{Qwen/Qwen2.5-7B-Instruct}~\citep{qwenQwen25TechnicalReport2024}, \texttt{meta-llama/Llama-3.1-8B-Instruct}~\citep{grattafioriLlama3Herd2024}, \texttt{mistralai/Mistral-7B-Instruct-v0.3}~\citep{jiangMistral7B2023}, and GPT-4o-mini~\citep{openaiGPT4oSystemCard2024}.}
+As a baseline, synthesis prompts are sent directly to four instruction-tuned LLMs.\footnote{The full model list is given in \autoref{app:synthesizer-training}.}
 
 \paragraph{Supervised fine-tuning (SFT).}
 Each of the three open models is fine-tuned on the training prompts, with the real student answers as the target completions.
@@ -76,13 +54,13 @@ Each of the three open models is fine-tuned on the training prompts, with the re
 
 
 \paragraph{Level-contrastive preference tuning (DPO).}
-Realistic synthetic answers for ASAS must capture the nuanced differences between adjacent score levels. SFT only raises the likelihood of the real answers at the requested level and never teaches the model to distinguish between adjacent levels, so we use direct preference optimization (DPO)~\citep{rafailovDirectPreferenceOptimization2023} on pairs of real answers (\autoref{fig:dpo-pairs}). For a training prompt $x$ with requested level $\ell$, the chosen completion $y^{+}$ lists real answers at level $\ell$, and the rejected completion $y^{-}$ lists real answers to the same question at an adjacent level $\ell'$, with $|\ell - \ell'| = 1$. The loss has two terms. The DPO term prefers $y^{+}$ over $y^{-}$, which teaches the synthesizer to separate adjacent levels. The NLL term is the SFT loss on $y^{+}$~\citep{pangIterativeReasoningPreference2024}: it maximizes the likelihood of the real answers at the requested level, since the DPO term alone only widens the margin and can lower the likelihood of $y^{+}$ itself.
+Realistic synthetic answers for ASAS must capture the nuanced differences between adjacent score levels. SFT only raises the likelihood of the real answers at the requested level but never teaches the model to distinguish between adjacent levels, so we use direct preference optimization (DPO)~\citep{rafailovDirectPreferenceOptimization2023} on pairs of real answers (\autoref{fig:dpo-pairs}). For a training prompt $x$ with requested level $\ell$, the chosen completion $y^{+}$ lists real answers at level $\ell$, and the rejected completion $y^{-}$ lists real answers to the same question at an adjacent level $\ell'$, with $|\ell - \ell'| = 1$. The loss has two terms. The DPO term prefers $y^{+}$ over $y^{-}$, which teaches the synthesizer to separate adjacent levels. The NLL term is the SFT loss on $y^{+}$~\citep{pangIterativeReasoningPreference2024}: it maximizes the likelihood of the real answers at the requested level, since the DPO term alone only widens the margin and can lower the likelihood of $y^{+}$ itself.
 \begin{gather}
 \mathcal{L} = \mathbb{E}\Bigl[-\log \sigma\bigl(h_\theta(y^{+}) - h_\theta(y^{-})\bigr) + \alpha\,\mathcal{L}_{\mathrm{NLL}}(y^{+})\Bigr], \label{eq:dpo} \\
 h_\theta(y) = \beta \log \frac{\pi_\theta(y \mid x)}{\pi_{\mathrm{ref}}(y \mid x)}. \notag
 \end{gather}
-Here $\pi_\theta$ is the synthesizer, $\pi_{\mathrm{ref}}$ is a frozen reference model, $\beta$ and $\alpha$ are hyperparameters (\autoref{app:synthesizer-training}), and $\mathcal{L}_{\mathrm{NLL}}$ is the per-token negative log-likelihood of $y^{+}$. Negative examples are filtered so that their answer lengths match those of the positive examples\footnote{we allow for difference up to 10\% of the mean length.}, which prevents DPO from using 
-\textit{length as a shortcut}, since answers tend to belonger at higher levels.
+Here $\pi_\theta$ is the synthesizer, $\pi_{\mathrm{ref}}$ is a frozen reference model, $\beta$ and $\alpha$ are hyperparameters (\autoref{app:synthesizer-training}), and $\mathcal{L}_{\mathrm{NLL}}$ is the per-token negative log-likelihood of $y^{+}$. Negative examples are filtered so that their answer lengths match those of the positive examples\footnote{We allow a difference of up to 10\% of the mean length.}, which prevents DPO from using 
+\textit{length as a shortcut}, since answers tend to be longer at higher levels.
 
 \input{figure/fig_dpo_pairs.tex}
 
@@ -92,7 +70,7 @@ Two variants are trained. SFT+DPO continues from the SFT adapter, which also ser
 All models generate in rounds, shown by the dashed loop in \autoref{fig:pipeline}. In each round, every model receives one synthesis prompt per unseen question and requested level and returns 10 answers. The question-level ratio is kept balanced during generation. The synthetic answers join the seed examples for that question and level, so later prompts ask for answers that differ from earlier generations as well as from the initial seed examples. After the final round, we merge the answers of all models into one candidate pool.
 
 \paragraph{Non-attempts.}
-Real data also contain non-attempts such as ``idk''. These responses are largely question-independent and differ substantially from answers that attempt the question. To focus the synthesizers on substantive answers, non-attempts are excluded from synthesizer training and generated outside the main pipeline: a separate prompted LLM\footnote{GPT-4o-mini} writes a bank of non-attempts for each unseen question, all labeled incorrect.
+Real data also contain non-attempts such as ``idk''. These responses are largely question-independent and differ substantially from answers that attempt the question. To focus the synthesizers on substantive answers, non-attempts are excluded from synthesizer training and generated outside the main pipeline: a separate prompted LLM\footnote{GPT-4o-mini} writes a bank of non-attempts, all labeled incorrect. We also label each item in the training set if it is a non-attempt via an LLM, these answers are excluded from the sampling of seed and the target examples. 
 
 \subsection{Selection and Training}
 \label{sec:selection-training}
@@ -100,13 +78,13 @@ Real data also contain non-attempts such as ``idk''. These responses are largely
 \paragraph{Judge panel and selection.}
 
 
-Answer synthesis can produce an almost unlimited number of candidates, but they vary in quality, so filtering for the high-quality ones is necessary. \citet{zouFuseGenPLMFusion2024} use the probability given by an encoder-based judge as a quality signal to reweight the training instances. Following this idea, we score each candidate with a panel of $J = 6$ encoder-based judges trained only on the original training set (\autoref{app:judge-scorer}). For a candidate answer $a$ with requested level $\ell$, the panel score is the mean probability that the judges assign to $\ell$:
+Synthetic candidates vary in quality. \citet{zouFuseGenPLMFusion2024} use the probability given by an encoder-based judge as a quality signal to reweight the training instances. Following this idea, we score each candidate with a panel of $J = 6$ encoder-based judges trained only on the original training set (\autoref{app:judge-scorer}). For a candidate answer $a$ with requested level $\ell$, the panel score is the mean probability that the judges assign to $\ell$:
 \begin{equation}
 s(a) = \frac{1}{J} \sum_{j=1}^{J} p_j(\ell \mid a),
 \label{eq:panel-score}
 \end{equation}
 where $p_j$ is the predictive distribution of judge $j$.
-Various selection strategies are applied to the candidate pool; detailed settings and results are given in \autoref{sec:results}.
+Various selection strategies are applied to the candidate pool. Detailed settings and results are given in \autoref{sec:results}.
 
 
 

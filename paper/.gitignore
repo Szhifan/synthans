@@ -1,0 +1,12 @@
+# LaTeX build output (Overleaf builds its own)
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+acl_latex.pdf
+.DS_Store
