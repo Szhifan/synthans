@@ -27,10 +27,10 @@ We use the BEETLE and SciEntsBank datasets~\citep{dzikovskaSemEval2013Task2013},
 Each prompt is built for a question $q$ and a requested level $\ell$ and asks the model to generate new answers that differ from the seed examples. \autoref{tab:synthesis-prompt} in \autoref{app:synthesis-prompt} shows an example.
 
 \paragraph{Question Context Augmentation.}
-To better capture the requirements of each question and the scoring criteria for each level, \textit{gpt-5-mini} augments the question with a context description and a set of rubrics for each level. A detailed example of the question context and rubrics is shown in \autoref{tab:question-metadata} in \autoref{app:question-metadata}. For unseen questions, the context and rubrics are generated from pseudo-labeled answers (\autoref{app:seed-examples}).
+To better capture the requirements of each question and the scoring criteria for each level, \textit{gpt-5-mini} augments the question with a context description and a set of rubrics for each level. A detailed example of the question context and rubrics is shown in \autoref{tab:question-metadata} in \autoref{app:question-metadata}.
 
 \paragraph{Seed Examples.}
-During training, the seed examples are 10 real student answers from the training set for each question and level. Obtaining seed examples for unseen questions is non-trivial: their labeled answers are test data, and seeds written by an LLM from the question alone are not grounded in how students actually answer. We therefore adopt a transductive setting in which the answers to unseen questions are available without their labels. The judge panel (\autoref{sec:selection-training}) assigns each answer a pseudo-label, the 10 answers per question and level that the panel is most confident about are selected, and an LLM\footnote{GPT-5.6-Luna.} checks them against the reference answer, keeping or rewriting each one and writing new answers when fewer than 10 usable ones remain. \autoref{app:seed-examples} discusses the problem and gives the full procedure.
+During training, the seed examples are 10 real student answers from the training set for each question and level. For unseen questions, the seeds, contexts, and rubrics are derived from unlabeled answers pseudo-labeled by the judge panel (\autoref{app:seed-examples}).
 
 \paragraph{Target Examples.}
 To train the synthesizers via SFT or DPO, we randomly sample 10 real student answers from the training set for each question and level as the target examples.
