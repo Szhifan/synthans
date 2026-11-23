@@ -5,7 +5,7 @@
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=\textwidth]{figure/fig1_pipeline.pdf}
+    \includegraphics[width=\textwidth]{figures/fig1_pipeline.pdf}
     \caption{Overview of the training and evaluation pipeline.}
     \label{fig:pipeline}
 \end{figure*}
@@ -62,7 +62,7 @@ h_\theta(y) = \beta \log \frac{\pi_\theta(y \mid x)}{\pi_{\mathrm{ref}}(y \mid x
 Here $\pi_\theta$ is the synthesizer, $\pi_{\mathrm{ref}}$ is a frozen reference model, $\beta$ and $\alpha$ are hyperparameters (\autoref{app:synthesizer-training}), and $\mathcal{L}_{\mathrm{NLL}}$ is the per-token negative log-likelihood of $y^{+}$. Negative examples are filtered so that their answer lengths match those of the positive examples\footnote{We allow a difference of up to 10\% of the mean length.}, which prevents DPO from using 
 \textit{length as a shortcut}, since answers tend to be longer at higher levels.
 
-\input{figure/fig_dpo_pairs.tex}
+\input{figures/fig_dpo_pairs.tex}
 
 Two variants are trained. SFT+DPO continues from the SFT adapter, which also serves as $\pi_{\mathrm{ref}}$. DPO starts from the base model, which serves as $\pi_{\mathrm{ref}}$, and has no SFT stage.
 
