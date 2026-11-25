@@ -30,7 +30,7 @@ Each prompt is built for a question $q$ and a requested level $\ell$ and asks th
 To better capture the requirements of each question and the scoring criteria for each level, \textit{gpt-5-mini} augments the question with a context description and a set of rubrics for each level. A detailed example of the question context and rubrics is shown in \autoref{tab:question-metadata} in \autoref{app:question-metadata}.
 
 \paragraph{Seed Examples.}
-During training, the seed examples are 10 real student answers from the training set for each question and level. For unseen questions, the seeds, contexts, and rubrics are derived from unlabeled answers pseudo-labeled by the judge panel (\autoref{app:seed-examples}).
+During training, the seed examples are 10 real student answers from the training set for each question and level. For unseen questions, the seeds, contexts, and rubrics are derived from unlabelled answers pseudo-labelled by the judge panel (\autoref{app:seed-examples}).
 
 \paragraph{Target Examples.}
 To train the synthesizers via SFT or DPO, we randomly sample 10 real student answers from the training set for each question and level as the target examples.
@@ -55,10 +55,14 @@ Each of the three open models is fine-tuned on the training prompts, with the re
 
 \paragraph{Level-contrastive preference tuning (DPO).}
 Realistic synthetic answers for ASAS must capture the nuanced differences between adjacent score levels. SFT only raises the likelihood of the real answers at the requested level but never teaches the model to distinguish between adjacent levels, so we use direct preference optimization (DPO)~\citep{rafailovDirectPreferenceOptimization2023} on pairs of real answers (\autoref{fig:dpo-pairs}). For a training prompt $x$ with requested level $\ell$, the chosen completion $y^{+}$ lists real answers at level $\ell$, and the rejected completion $y^{-}$ lists real answers to the same question at an adjacent level $\ell'$, with $|\ell - \ell'| = 1$. The loss has two terms. The DPO term prefers $y^{+}$ over $y^{-}$, which teaches the synthesizer to separate adjacent levels. The NLL term is the SFT loss on $y^{+}$~\citep{pangIterativeReasoningPreference2024}: it maximizes the likelihood of the real answers at the requested level, since the DPO term alone only widens the margin and can lower the likelihood of $y^{+}$ itself.
-\begin{gather}
-\mathcal{L} = \mathbb{E}\Bigl[-\log \sigma\bigl(h_\theta(y^{+}) - h_\theta(y^{-})\bigr) + \alpha\,\mathcal{L}_{\mathrm{NLL}}(y^{+})\Bigr], \label{eq:dpo} \\
-h_\theta(y) = \beta \log \frac{\pi_\theta(y \mid x)}{\pi_{\mathrm{ref}}(y \mid x)}. \notag
-\end{gather}
+\begin{align}
+\mathcal{L} &= \mathbb{E}\Bigl[\begin{aligned}[t]
+  &-\log \sigma\bigl(h_\theta(y^{+}) - h_\theta(y^{-})\bigr) \\
+  &\quad + \alpha\,\mathcal{L}_{\mathrm{NLL}}(y^{+})
+\end{aligned}\Bigr], \label{eq:dpo} \\
+% (no blank line inside align)
+h_\theta(y) &= \beta \log \frac{\pi_\theta(y \mid x)}{\pi_{\mathrm{ref}}(y \mid x)}. \notag
+\end{align}
 Here $\pi_\theta$ is the synthesizer, $\pi_{\mathrm{ref}}$ is a frozen reference model, $\beta$ and $\alpha$ are hyperparameters (\autoref{app:synthesizer-training}), and $\mathcal{L}_{\mathrm{NLL}}$ is the per-token negative log-likelihood of $y^{+}$. Negative examples are filtered so that their answer lengths match those of the positive examples\footnote{We allow a difference of up to 10\% of the mean length.}, which prevents DPO from using 
 \textit{length as a shortcut}, since answers tend to be longer at higher levels.
 
@@ -78,7 +82,7 @@ Real data also contain non-attempts such as ``idk''. These responses are largely
 \paragraph{Judge panel and selection.}
 
 
-Synthetic candidates vary in quality. \citet{zouFuseGenPLMFusion2024} use the probability given by an encoder-based judge as a quality signal to reweight the training instances. Following this idea, we score each candidate with a panel of $J = 6$ encoder-based judges trained only on the original training set (\autoref{app:judge-scorer}). For a candidate answer $a$ with requested level $\ell$, the panel score is the mean probability that the judges assign to $\ell$:
+Synthetic candidates vary in quality. \citet{zouFuseGenPLMFusion2024} use the probability given by a judge model as a quality signal to reweight the training instances. Following this idea, we score each candidate with a panel of $J = 6$ judges trained only on the original training set. For a candidate answer $a$ with requested level $\ell$, the panel score is the mean probability that the judges assign to $\ell$:
 \begin{equation}
 s(a) = \frac{1}{J} \sum_{j=1}^{J} p_j(\ell \mid a),
 \label{eq:panel-score}

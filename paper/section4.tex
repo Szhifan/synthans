@@ -113,7 +113,7 @@ We experiment with different selection policies:
 \end{itemize}
 
 
-To balance the amount of synthetic data across questions and levels, the selection policy is applied separately to each question and requested level; otherwise, the selected answers would be dominated by correct and incorrect answers, as the judges are more confident about them~(\autoref{fig:judge-vote-share}). 
+To balance synthetic data across questions and levels, we apply the selection policy separately to each question and requested level; otherwise, the selected answers would be dominated by correct and incorrect answers, since judges are more confident about them~(\autoref{fig:judge-vote-share}). 
 
 We test four windows: $(w_{\mathrm{top}}, w_{\mathrm{bot}}) \in \{(0, 30), (0, 50), (10, 50), (20, 20)\}$. \autoref{fig:selection-policies} shows the results, and per-model scores are provided in \autoref{tab:appendix-selection-amount} in \autoref{app:per-model-results}. Hard Selection and all four windows perform on par with random selection: their means lie within or at the edge of the range of the five random draws on all three test sets. The exception is Lowest-Rank, which lowers the macro F1 by 12 to 15 points relative to training on real data only. The answers that the judges most confidently assign to another level do harm the scorer, which suggests that the judges reliably identify off-level answers. Highest-Rank also falls below random selection, most clearly on SciEntsBank UD. Keeping only the answers that the judges are most confident about thus does not help either, in line with our motivation for the windows.
 
