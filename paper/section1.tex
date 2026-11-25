@@ -12,7 +12,7 @@ Much existing work on data synthesis with LLMs for natural language understandin
 where labels usually carry a \textbf{fixed}, \textbf{input-independent} meaning that is often signaled by superficial lexical or semantic cues in the input text~\citep{joulinBagTricksEfficient2017,gururanganAnnotationArtifactsNatural2018,kaushikLearningDifferenceThat2020}.
 ASAS differs from these tasks in two respects.
 First, a useful synthetic answer must reflect a specific level of \textbf{understanding of the scientific concepts} involved, including partial knowledge and typical misconceptions, while also imitating the \textbf{linguistic style} of real students, such as informal phrasing and incomplete explanations.
-Second, the meaning of each score level is \textbf{question-specific}: it is defined by the context information and scoring criteria of each question rather than by fixed label semantics.
+Second, each score level's meaning is \textbf{question-specific}: it depends on the context and scoring criteria for each question rather than on fixed label semantics.
 Established augmentation techniques that perturb seed examples from the training data via paraphrasing, insertion, or swapping~\citep{ceginLLMsVsEstablished2025} are therefore impractical, since surface-level edits cannot turn an answer to a seen question into an answer to a new one.
 
 The goal of this paper is therefore to address these challenges by comprehensively investigating whether and how LLMs can synthesize realistic student responses to unseen open-ended science questions for ASAS training.
